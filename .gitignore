@@ -11,3 +11,6 @@ Intermediates/
 **.vcxproj.filters
 **.vcxproj.user
 **.csproj
+
+# Rider Files 
+.idea/
