@@ -1,14 +1,21 @@
 #pragma once
 
-//#ifdef LQD_PLATFORM_WINDOWS
 
+//By declaring the CreateApplication() function with the extern keyword, 
+//we are telling the compiler that the function exists, 
+//even though it is not defined in the current namespace. 
+//This allows us to call the CreateApplication() function from the main() function.
 extern LqD::Application* LqD::CreateApplication();
 
 int main(int argc, char** argv)
 {
+	// This function is the main entry point for the application.
+	// It creates an instance of the Application class, runs it, and then deletes it.
+
+	// Create an instance of the Application class.
 	auto app = LqD::CreateApplication();
+
 	app->Run();
+	
 	delete app;
 }
-
-//#endif 

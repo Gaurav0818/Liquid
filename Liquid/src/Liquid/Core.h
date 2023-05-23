@@ -20,6 +20,8 @@
 
 #define LQD_PLATFORM_WINDOWS
 
+// NOTE : LQD_EXTRACT_DLL is defined in Liquid.h class which will be called from cliet (application) side 
+
 #ifdef LQD_PLATFORM_WINDOWS
 	#ifdef LQD_EXTRACT_DLL
 	#define LIQUID_API __declspec(dllimport)
