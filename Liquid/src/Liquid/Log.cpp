@@ -1,20 +1,25 @@
 #include "Log.h"
 #include "spdlog/sinks/stdout_color_sinks.h"
 
-namespace LqD
+
+std::shared_ptr<spdlog::logger> LqD::Log::s_CoreLogger;
+std::shared_ptr<spdlog::logger> LqD::Log::s_ClientLogger;
+
+void LqD::Log::Init()
 {
-	std::shared_ptr<spdlog::logger> Log::s_CoreLogger;
-	std::shared_ptr<spdlog::logger> Log::s_ClientLogger;
+	// Set the log format.
+	spdlog::set_pattern("%^[%T] %n: %v%$");
 
-	void Log::Init()
-	{
-		spdlog::set_pattern("%^[%T] %n: %v%$");
-		s_CoreLogger = spdlog::stdout_color_mt("LIQUID");
-		s_CoreLogger->set_level(spdlog::level::trace);
+	// Create the core logger.
+	s_CoreLogger = spdlog::stdout_color_mt("LIQUID");
+	// Set the level of the core logger.
+	s_CoreLogger->set_level(spdlog::level::trace);
 
-		s_ClientLogger = spdlog::stdout_color_mt("APP");
-		s_ClientLogger->set_level(spdlog::level::trace);
-	}
+	// Create the client logger.
+	s_ClientLogger = spdlog::stdout_color_mt("APP");
+	// Set the level of the client logger.
+	s_ClientLogger->set_level(spdlog::level::trace);
 }
+
 
 

@@ -12,6 +12,7 @@ int main(int argc, char** argv)
 	// This function is the main entry point for the application.
 	// It creates an instance of the Application class, runs it, and then deletes it.
 
+	// Initialize the logger.
 	LqD::Log::Init();
 	LQD_CORE_WARN("Initialized Core Log!");
 	LQD_INFO("Initialized Core Log!");

@@ -11,18 +11,27 @@ namespace LqD {
 	{
 	public:
 
+		// This static method initializes the Log class.
 		static void Init();
-		inline static std:: shared_ptr<spdlog::logger>& GetCoreLogger()
+
+		// This inline static method returns a reference to the core logger.
+		inline static std::shared_ptr<spdlog::logger>& GetCoreLogger()
 		{
 			return s_CoreLogger;
 		}
+
+		// This inline static method returns a reference to the client logger.
 		inline static std::shared_ptr<spdlog::logger>& GetClientLogger()
 		{
 			return s_ClientLogger;
 		}
 
 	private:
+
+		// This static member variable stores a reference to the Core logger.
 		static std::shared_ptr<spdlog::logger> s_CoreLogger;
+
+		// This static member variable stores a reference to the client logger.
 		static std::shared_ptr<spdlog::logger> s_ClientLogger;
 	};
 }
