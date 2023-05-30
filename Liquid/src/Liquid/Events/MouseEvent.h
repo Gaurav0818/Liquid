@@ -2,8 +2,6 @@
 
 #include "Event.h"
 
-#include <sstream>
-
 namespace LqD {
 
 	class LIQUID_API MouseMovedEvent : public Event

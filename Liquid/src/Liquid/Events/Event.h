@@ -2,9 +2,6 @@
 
 #include "Liquid\Core.h"
 
-#include <string>
-#include <functional>
-
 namespace LqD {
 
 	// Events are currently blocking, meaning when an event occurs it
