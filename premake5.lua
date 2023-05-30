@@ -10,6 +10,12 @@ workspace "Liquid"
 
 outputdir = "%{cfg.buildcfg}-%{cfg.system}-%{cfg.architecture}"
 
+-- include directories relative to root folder {solution directory}
+IncludeDir = {}
+IncludeDir["GLFW"] = "Liquid/vendor/GLFW/include"
+
+include "Liquid/vendor/GLFW"
+
 project "Liquid"
     location "Liquid"
 	kind "SharedLib"
@@ -30,8 +36,14 @@ project "Liquid"
 	includedirs
 	{
 		"%{prj.name}/src",
-		"%{prj.name}/vender/spdlog/include"
+		"%{prj.name}/vendor/spdlog/include",
+        "%{IncludeDir.GLFW}"
 	}
+
+    links
+    {
+        "GLFW"
+    }
 
     filter "system:windows"
 		cppdialect "C++17"
@@ -79,7 +91,7 @@ project "Sandbox"
 
 	includedirs
 	{
-		"Liquid/vender/spdlog/include",
+		"Liquid/vendor/spdlog/include",
 		"Liquid/src"
 	}
 

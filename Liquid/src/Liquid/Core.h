@@ -17,7 +17,17 @@
 	#endif
 #else
 	#error Liquid only supports Windows!
-#endif 
+#endif
+
+
+#ifdef LQD_ENABLE_ASSERTS
+	#define LQD_ASSERT(x, ...) { if(!(x)) { LQD_ERROR("Assertion Failed: {0}", __VA_ARGS__); __debugbreak(); } }
+	#define LQD_CORE_ASSERT(x, ...) { if(!(x)) { LQD_CORE_ERROR("Assertion Failed: {0}", __VA_ARGS__); __debugbreak(); } }
+#else
+	#define LQD_ASSERT(x, ...)
+	#define LQD_CORE_ASSERT(x, ...)
+#endif
+
 
 // This macro defines the BIT macro.
 // The BIT macro is used to get the bit mask for a given bit position.

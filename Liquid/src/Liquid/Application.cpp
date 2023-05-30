@@ -3,9 +3,11 @@
 
 #include "Liquid/Events/ApplicationEvent.h"
 #include "Liquid/Log.h"
+#include <GLFW/glfw3.h>
 
 LqD::Application::Application()
 {
+	m_Window = std::unique_ptr<Window>(Window::Create());
 }
 
 LqD::Application::~Application()
@@ -14,17 +16,12 @@ LqD::Application::~Application()
 
 void LqD::Application::Run()
 {
-	WindowResizeEvent e(1280, 720);
-	if (e.IsInCategory(EventCategoryApplication))
+	while(m_Running)
 	{
-		LQD_TRACE(e);
+		glClearColor(0.3,0.5,0.7,1);
+		glClear(GL_COLOR_BUFFER_BIT);
+		m_Window->OnUpdate();
 	}
-	if (e.IsInCategory(EventCategoryInput))
-	{
-		LQD_TRACE(e);
-	}
-
-	while(true);
 }
 
 
