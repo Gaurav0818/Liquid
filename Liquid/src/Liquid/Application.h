@@ -1,13 +1,7 @@
 #pragma once
 
 #include "Core.h"
-
-//#ifdef LQD_EXTRACT_DLL
-//	#define LIQUID_API __declspec(dllimport)
-//#else
-//	#define LIQUID_API __declspec(dllexport)
-//#endif
-
+#include "Events/Event.h"
 
 namespace LqD
 {

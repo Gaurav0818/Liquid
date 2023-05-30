@@ -12,9 +12,6 @@ cd %BUILD_DIR%
 rem Configure the CMake project
 cmake ..
 
-rem Build the project using the generated build system
-cmake --build .
-
 rem Return to the original directory
 cd ..
 
