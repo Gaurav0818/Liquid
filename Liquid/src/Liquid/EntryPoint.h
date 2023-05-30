@@ -1,6 +1,5 @@
 #pragma once
 
-
 //By declaring the CreateApplication() function with the extern keyword, 
 //we are telling the compiler that the function exists, 
 //even though it is not defined in the current namespace. 

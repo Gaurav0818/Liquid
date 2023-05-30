@@ -1,3 +1,7 @@
+// This is a precompiled header file.
+// It contains all of the standard library headers that are used by the Liquid Engine.
+// This file should be included at the top of all Liquid Engine source files.
+// This will improve compilation times by caching the results of compiling the standard library headers.
 #pragma once
 
 #include <iostream>
