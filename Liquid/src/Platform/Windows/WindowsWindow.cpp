@@ -2,11 +2,19 @@
 #include "WindowsWindow.h"
 
 #include "Liquid/Log.h"
+#include "Liquid/Events/ApplicationEvent.h"
+#include "Liquid/Events/KeyEvent.h"
+#include "Liquid/Events/MouseEvent.h"
 
 namespace LqD
 {
     // This static variable is used to track whether GLFW has been initialized.
     static bool s_GLFWInitialized = false;
+
+    static void GLFWErrorCallback(int error_code, const char* description)
+    {
+        LQD_CORE_ERROR("GLFW Error ({0}): {1}", error_code, description);
+    }
 
     // This function creates a new Window object.
     Window* Window::Create(const WindowProps& props)
@@ -48,6 +56,8 @@ namespace LqD
             // Log an error to the console if GLFW failed to initialize.
             LQD_CORE_ASSERT(success, "Could not initialize GLFW!");
 
+            glfwSetErrorCallback(LqD::GLFWErrorCallback);
+
             // Sets the flag to indicate that GLFW has been initialized.
             s_GLFWInitialized = true;
         }
@@ -57,9 +67,94 @@ namespace LqD
         // Makes the window's context current.
         glfwMakeContextCurrent(m_Window);
         // Sets the window user pointer to point to the window's data.
+        // So that we can access the window's data from the GLFW callbacks.
         glfwSetWindowUserPointer(m_Window, &m_Data);
         // Sets  the VSync state to true.
         SetVSync(true);
+
+        // Set GLFW callbacks
+        glfwSetWindowSizeCallback(m_Window, [] (GLFWwindow* window, int width, int height)
+        {
+            WindowData& data = *static_cast<WindowData*>(glfwGetWindowUserPointer(window));
+            
+            data.Width = width;
+            data.Height = height;
+            
+            WindowResizeEvent event(width, height);
+            data.EventCallback(event);
+        });
+
+        glfwSetWindowCloseCallback(m_Window, [](GLFWwindow* window)
+        {
+            WindowData& data = *(WindowData*)(glfwGetWindowUserPointer(window));
+
+            WindowCloseEvent event;
+            data.EventCallback(event);
+        });
+
+        glfwSetKeyCallback(m_Window,[](GLFWwindow* window, int key, int scancode, int action, int mods)
+        {
+            WindowData& data = *(WindowData*)(glfwGetWindowUserPointer(window));
+
+            switch (action)
+            {
+            case GLFW_PRESS:
+                {
+                    KeyPressedEvent event(key, 0);
+                    data.EventCallback(event);
+                    break;
+                }
+            case GLFW_REPEAT:
+                {
+                    KeyPressedEvent event(key, 1);
+                    data.EventCallback(event);
+                    break;
+                }
+            case GLFW_RELEASE:
+                {
+                    KeyReleasedEvent event(key);
+                    data.EventCallback(event);
+                    break;
+                }
+            }
+        });
+
+        glfwSetMouseButtonCallback(m_Window, []( GLFWwindow* window, int button, int action, int mods)
+        {
+            WindowData& data = *(WindowData*)(glfwGetWindowUserPointer(window));
+
+            switch (action)
+            {
+            case GLFW_PRESS:
+                {
+                    MouseButtonPressedEvent event(button);
+                    data.EventCallback(event);
+                    break;
+                }
+            case GLFW_REPEAT:
+                {
+                    MouseButtonReleasedEvent event(button);
+                    data.EventCallback(event);
+                    break;
+                }
+            }
+        });
+
+        glfwSetScrollCallback(m_Window,[](GLFWwindow* window, double xoffset, double yoffset)
+        {
+            WindowData& data = *(WindowData*)(glfwGetWindowUserPointer(window));
+            
+            MouseScrolledEvent event((float)xoffset, (float)yoffset);
+            data.EventCallback(event);
+        });
+
+        glfwSetCursorPosCallback(m_Window,[](GLFWwindow* window, double xpos, double ypos)
+        {
+            WindowData& data = *(WindowData*)glfwGetWindowUserPointer(window);
+            
+            MouseMovedEvent event((float)xpos, (float)ypos);
+            data.EventCallback(event);
+        });
     }
 
     void WindowsWindow::Shutdown()

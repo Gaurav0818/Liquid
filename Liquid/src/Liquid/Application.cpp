@@ -5,9 +5,12 @@
 #include "Liquid/Log.h"
 #include <GLFW/glfw3.h>
 
+#define BIND_EVENT_FN(x) std::bind(&Application::x, this, std::placeholders::_1)
+
 LqD::Application::Application()
 {
 	m_Window = std::unique_ptr<Window>(Window::Create());
+	m_Window->SetEventCallback(BIND_EVENT_FN(OnEvent));
 }
 
 LqD::Application::~Application()
@@ -30,6 +33,20 @@ void LqD::Application::Run()
 		// Update the window.
 		m_Window->OnUpdate();
 	}
+}
+
+void LqD::Application::OnEvent(Event& e)
+{
+	EventDispatcher dispatcher(e);
+	dispatcher.Dispatch<WindowCloseEvent>(BIND_EVENT_FN(OnWindowClose));
+	
+	LQD_CORE_INFO("{0}",e);
+}
+
+bool LqD::Application::OnWindowClose(WindowCloseEvent& e)
+{
+	m_Running = false;
+	return true;
 }
 
 
