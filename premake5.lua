@@ -63,14 +63,17 @@ project "Liquid"
 
     filter "configurations:Debug"
         defines "LQD_DEBUG"
+        buildoptions "/MDd"
         symbols "On"
 
     filter "configurations:Release"
         defines "LQD_RELEASE"
+        buildoptions "/MD"
         optimize  "On"
 
     filter "configurations:Dist"
         defines "LQD_DIST"
+        buildoptions "/MD"
         optimize  "On"
 
 
@@ -106,14 +109,17 @@ project "Sandbox"
 
     filter "configurations:Debug"
         defines "LQD_DEBUG"
+        buildoptions "/MDd"
         symbols "On"
 
     filter "configurations:Release"
         defines "LQD_RELEASE"
+        buildoptions "/MD"
         optimize  "On"
 
     filter "configurations:Dist"
         defines "LQD_DIST"
+        buildoptions "/MD"
         optimize  "On"
 
 

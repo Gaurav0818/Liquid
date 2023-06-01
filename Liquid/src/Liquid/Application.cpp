@@ -29,6 +29,11 @@ void LqD::Application::Run()
 		//it is used to store the colors of all the pixels on the screen.
 		//When you start a new frame, you want to start with a blank canvas,
 		//so you clear the color buffer to the background color.
+
+
+		//UpdateEach Layer
+		for(auto layer: m_LayerStack)
+			layer->OnUpdate();
 		
 		// Update the window.
 		m_Window->OnUpdate();
@@ -39,8 +44,23 @@ void LqD::Application::OnEvent(Event& e)
 {
 	EventDispatcher dispatcher(e);
 	dispatcher.Dispatch<WindowCloseEvent>(BIND_EVENT_FN(OnWindowClose));
-	
-	LQD_CORE_INFO("{0}",e);
+
+	for (auto it = m_LayerStack.end(); it != m_LayerStack.begin();)
+	{
+		(*--it)->OnEvent(e);
+		if(e.Handled())
+			break;
+	}
+}
+
+void LqD::Application::PushLayer(Layer* layer)
+{
+	m_LayerStack.PushLayer(layer);
+}
+
+void LqD::Application::PushOverlay(Layer* overlay)
+{
+	m_LayerStack.PushOverlay(overlay);
 }
 
 bool LqD::Application::OnWindowClose(WindowCloseEvent& e)

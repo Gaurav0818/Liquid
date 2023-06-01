@@ -2,9 +2,8 @@
 
 // For Use By Application
 
-#define LQD_EXTRACT_DLL
-
 #include "Liquid/Application.h"
+#include "Liquid/Layer.h"
 #include "Liquid/Log.h"
 
 // --- Entry Point ---

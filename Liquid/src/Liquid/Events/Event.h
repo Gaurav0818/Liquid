@@ -56,6 +56,8 @@ namespace LqD {
 		{
 			return GetCategoryFlags() & category;
 		}
+		
+		bool Handled() const { return m_Handled; }
 	protected:
 		// Whether the event has been handled.
 		bool m_Handled = false;
