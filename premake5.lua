@@ -14,8 +14,10 @@ outputdir = "%{cfg.buildcfg}-%{cfg.system}-%{cfg.architecture}"
 -- include directories relative to root folder {solution directory}
 IncludeDir = {}
 IncludeDir["GLFW"] = "Liquid/vendor/GLFW/include"
+IncludeDir["Glad"] = "Liquid/vendor/Glad/include"
 
 include "Liquid/vendor/GLFW"
+include "Liquid/vendor/Glad"
 
 project "Liquid"
     location "Liquid"
@@ -38,11 +40,13 @@ project "Liquid"
 	{
 		"%{prj.name}/src",
 		"%{prj.name}/vendor/spdlog/include",
+        "%{IncludeDir.Glad}",
         "%{IncludeDir.GLFW}"
 	}
 
     links
     {
+        "Glad",
         "GLFW"
     }
 
@@ -54,7 +58,8 @@ project "Liquid"
         defines
 		{
             "LQD_PLATFORM_WINDOWS",
-            "LQD_BUILD_DLL"
+            "LQD_BUILD_DLL",
+            "GLFW_INCLUDE_NONE"
         }
 
         postbuildcommands

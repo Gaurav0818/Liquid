@@ -6,6 +6,8 @@
 #include "Liquid/Events/KeyEvent.h"
 #include "Liquid/Events/MouseEvent.h"
 
+#include "glad/glad.h"
+
 namespace LqD
 {
     // This static variable is used to track whether GLFW has been initialized.
@@ -66,6 +68,11 @@ namespace LqD
         m_Window = glfwCreateWindow((int)props.Width, (int)props.Height, m_Data.Title.c_str(), nullptr, nullptr);
         // Makes the window's context current.
         glfwMakeContextCurrent(m_Window);
+
+
+        int status = gladLoadGLLoader((GLADloadproc)glfwGetProcAddress);
+        LQD_CORE_ASSERT(status, "Failed To Initialize GLAD!")
+
         // Sets the window user pointer to point to the window's data.
         // So that we can access the window's data from the GLFW callbacks.
         glfwSetWindowUserPointer(m_Window, &m_Data);
