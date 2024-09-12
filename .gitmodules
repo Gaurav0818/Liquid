@@ -1,6 +1,0 @@
-[submodule "Liquid/vendor/spdlog"]
-	path = Liquid/vendor/spdlog
-	url = https://github.com/gabime/spdlog
-[submodule "Liquid/vendor/GLFW"]
-	path = Liquid/vendor/GLFW
-	url = https://github.com/Gaurav0818/glfw
